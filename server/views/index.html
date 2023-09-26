@@ -1,0 +1,43 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Log Viewer</title>
+</head>
+
+<body>
+    <h1>Real-time Log Viewer</h1>
+    <div id="log-container"></div>
+    <h2>CPU Usage</h2>
+    <div id="cpu-usage-container"></div> <!-- CPU 정보를 표시할 영역 추가 -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        // 로그를 화면에 표시하는 함수
+        function displayLog(logData) {
+            const logContainer = document.getElementById('log-container');
+            logContainer.innerHTML += '<pre>' + logData + '</pre>';
+        }
+
+        // CPU 정보를 화면에 표시하는 함수
+        function displayCpuUsage(cpuUsageData) {
+            const cpuUsageContainer = document.getElementById('cpu-usage-container');
+            cpuUsageContainer.innerHTML = '<pre>' + JSON.stringify(cpuUsageData, null, 2) + '</pre>';
+        }
+
+        socket.on('log', (data) => {
+            // 서버에서 로그를 수신하면 화면에 표시
+            displayLog(data);
+        });
+
+        socket.on('cpuUsage', (data) => {
+            // 서버에서 CPU 정보를 수신하면 화면에 표시
+            displayCpuUsage(data);
+        });
+    </script>
+</body>
+
+</html>
