@@ -3,7 +3,6 @@ const http = require("http");
 const socketIo = require("socket.io");
 const fs = require("fs");
 const winston = require("winston");
-const logCpuUsage = require("./monitoring/logCpuUsage"); // 모듈을 가져옴
 
 const app = express();
 const server = http.createServer(app);
@@ -12,7 +11,10 @@ const io = socketIo(server);
 const logFileName = "app.log"; // 로그 파일 이름
 const logFilePath = "./logs"; // 로그 파일 경로
 
+const mypageRoutes = require("./routes/mypage");
+
 app.use(express.static("views"));
+app.use("/mypage", mypageRoutes);
 
 // 로깅 설정
 const logger = winston.createLogger({
@@ -54,10 +56,6 @@ io.on("connection", (socket) => {
     socket.on("disconnect", () => {
         console.log("Client disconnected");
     });
-    setInterval(() => {
-        const cpuUsageData = logCpuUsage(); // CPU 정보를 가져옴
-        socket.emit("cpuUsage", cpuUsageData);
-    }, 10000);
 });
 
 server.listen(3000, () => {
