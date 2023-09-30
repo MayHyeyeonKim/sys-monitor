@@ -30,6 +30,9 @@ const cpuLog_1 = setInterval(() => {
 setTimeout(() => {
     clearInterval(cpuLog_1);
     console.log("setInterval이 중지되었습니다.");
+    setTimeout(() => {
+        console.log("프로그램이 종료되었습니다.");
+        process.exit();
+    }, 5000);
 }, 3000);
-
 module.exports = logCpuUsage;
