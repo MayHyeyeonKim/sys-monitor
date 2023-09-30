@@ -21,14 +21,15 @@ logCpuUsage((cpuUsageData) => {
     console.log("CPU Usage Data:", cpuUsageData);
 });
 
-// 10초마다 logCpuUsage 함수를 실행하도록 설정
-setInterval(() => {
+const cpuLog_1 = setInterval(() => {
     logCpuUsage((cpuUsageData) => {
-        // CPU 정보를 사용하는 로직을 이곳에서 처리
         console.log("CPU Usage Data:", cpuUsageData);
     });
-}, 10000);
+}, 1000);
 
-module.exports = logCpuUsage;
+setTimeout(() => {
+    clearInterval(cpuLog_1);
+    console.log("setInterval이 중지되었습니다.");
+}, 3000);
 
 module.exports = logCpuUsage;
